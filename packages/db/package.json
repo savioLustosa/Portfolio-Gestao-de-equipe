@@ -1,0 +1,21 @@
+{
+  "name": "@gestao/db",
+  "version": "0.1.0",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "db:generate": "drizzle-kit generate:pg",
+    "db:push": "drizzle-kit push:pg",
+    "db:migrate": "drizzle-kit push:pg"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.33.0",
+    "postgresjs": "^3.4.4"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.11.6",
+    "drizzle-kit": "^0.23.1",
+    "typescript": "^5.5.3"
+  },
+  "packageManager": "npm@10.8.2"
+}
