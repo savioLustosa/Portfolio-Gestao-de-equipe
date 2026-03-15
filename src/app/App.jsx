@@ -20,7 +20,7 @@ export default function App() {
   const [workspaces, setWorkspaces] = useState([]);
   const [team, setTeam] = useState([]);
   const [activeWorkspace, setActiveWorkspace] = useState('');
-  const [currentView, setCurrentView] = useState('table');
+  const [currentView, setCurrentView] = useState('dashboard');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTask, setSelectedTask] = useState(null);
   const [isNewTaskModalOpen, setIsNewTaskModalOpen] = useState(false);
@@ -40,7 +40,7 @@ export default function App() {
           setTasks(JSON.parse(savedTasks));
           setWorkspaces(JSON.parse(savedWs));
           setTeam(JSON.parse(savedTeam));
-          setActiveWorkspace(JSON.parse(savedWs)[0]);
+          setActiveWorkspace('Todos Projetos');
           setIsLoading(false);
           return;
         }
@@ -79,7 +79,7 @@ export default function App() {
         setTasks(parsedTasks);
         setTeam(parsedTeam);
         setWorkspaces(parsedWs);
-        if (parsedWs.length > 0) setActiveWorkspace(parsedWs[0]);
+        setActiveWorkspace('Todos Projetos');
         setIsLoading(false);
       } catch (error) {
         console.error("Erro ao carregar dados:", error);
