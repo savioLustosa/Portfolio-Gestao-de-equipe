@@ -1,0 +1,7 @@
+id,name,group,status,priority,owner,startDate,date,env,description,gitPr,gitStatus,checklist,isBlocked,blockReason,isPersonal,isOngoing
+1,Pipeline de Ingestão de Vendas,DATA ENGINEERING,Em Produção,Alta,Beatriz Lima,2026-03-10,2026-03-21,Prod,Pipeline principal de ingestão.,,
+2,Limpeza de Dados Legados (LGPD),DATA ENGINEERING,Análise,Média,Beatriz Lima,2026-03-01,2026-03-05,Dev,Limpeza de campos LGPD.,,
+3,Modelo Preditivo de Churn,DATA SCIENCE,Em Desenvolvimento,Alta,Lucas Rocha,2026-03-02,2026-03-08,Dev,Modelo de churn v2.,,
+4,Queda na API de Recomendações,DATA SCIENCE,Incidente,Crítica,Lucas Rocha,2026-03-14,2026-03-15,Prod,Incidente crítico de queda.,,
+5,Ideia: Dashboard de Custos AWS,IDEIAS & BACKLOG,Análise,Baixa,Savio Dev,2026-03-01,2026-03-04,None,Planejamento inicial.,,
+6,Provisionamento Terraform,DEVOPS & INFRA,Em Produção,Alta,Lucas Rocha,2026-03-08,2026-03-15,Prod,Infra as Code.,,

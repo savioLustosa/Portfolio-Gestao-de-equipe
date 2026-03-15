@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "SyncSaaS - Gestão de Projetos e Tickets",
+  title: "Muito mais que dados - Gestão de Projetos e Tickets",
   description: "Plataforma de alta performance para equipes de TI e DevOps",
 };
 

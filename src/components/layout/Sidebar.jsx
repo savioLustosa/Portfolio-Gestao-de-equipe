@@ -9,20 +9,13 @@ import {
   Bug, 
   CalendarDays, 
   HelpCircle,
-  Database,
-  Cloud,
+  Hash,
   ChevronRight,
-  Settings,
-  LogOut
+  LogOut,
+  FolderOpen
 } from 'lucide-react';
 
-export default function Sidebar({ activeWorkspace, setActiveWorkspace, currentView, setCurrentView }) {
-  const workspaces = [
-    { id: 'Data & Analytics', icon: Database, color: 'text-blue-500' },
-    { id: 'DevOps & Infra', icon: Cloud, color: 'text-purple-500' },
-    { id: 'Engineering', icon: Settings, color: 'text-slate-500' },
-  ];
-
+export default function Sidebar({ activeWorkspace, setActiveWorkspace, currentView, setCurrentView, workspaces = [], user, onLogout }) {
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'table', label: 'Tabela de Tarefas', icon: Table },
@@ -34,36 +27,48 @@ export default function Sidebar({ activeWorkspace, setActiveWorkspace, currentVi
   ];
 
   return (
-    <aside className="w-64 bg-white border-right border-slate-200 flex flex-col h-full shadow-sm z-30">
+    <aside className="w-64 bg-white border-r border-slate-200 flex flex-col h-full shadow-sm z-30">
       {/* Logo Section */}
       <div className="p-6 border-b border-slate-100 flex items-center gap-3">
-        <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">
-          S
+        <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center p-2 shadow-lg shadow-slate-200">
+          <img src="/assets/logo.png" alt="Logo" className="w-full h-full object-contain" />
         </div>
-        <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-600">
-          SyncSaaS
+        <h1 className="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-600 tracking-tight">
+          Muito mais que dados
         </h1>
       </div>
 
       {/* Workspace Switcher */}
       <div className="px-4 py-6">
-        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-2 mb-2 block">
+        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-2 mb-3 block">
           Área de Trabalho
         </label>
-        <div className="space-y-1">
+        <div className="space-y-1 max-h-48 overflow-y-auto custom-scrollbar">
+          <button
+            onClick={() => setActiveWorkspace('All Workspaces')}
+            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${
+              activeWorkspace === 'All Workspaces' 
+              ? 'bg-blue-600 text-white font-bold shadow-lg shadow-blue-100' 
+              : 'text-slate-600 hover:bg-slate-50'
+            }`}
+          >
+            <FolderOpen size={16} />
+            <span className="text-xs uppercase tracking-tight">Todos Projetos</span>
+          </button>
+          
           {workspaces.map((ws) => (
             <button
-              key={ws.id}
-              onClick={() => setActiveWorkspace(ws.id)}
-              className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-all ${
-                activeWorkspace === ws.id 
-                ? 'bg-blue-50 text-blue-700 font-medium shadow-sm' 
+              key={ws}
+              onClick={() => setActiveWorkspace(ws)}
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${
+                activeWorkspace === ws
+                ? 'bg-blue-50 text-blue-700 font-bold border border-blue-100' 
                 : 'text-slate-600 hover:bg-slate-50'
               }`}
             >
-              <ws.icon size={18} className={activeWorkspace === ws.id ? 'text-blue-600' : 'text-slate-400'} />
-              <span className="text-sm truncate">{ws.id}</span>
-              {activeWorkspace === ws.id && <ChevronRight size={14} className="ml-auto" />}
+              <Hash size={16} className={activeWorkspace === ws ? 'text-blue-500' : 'text-slate-400'} />
+              <span className="text-xs font-bold uppercase tracking-tight truncate">{ws}</span>
+              {activeWorkspace === ws && <ChevronRight size={14} className="ml-auto" />}
             </button>
           ))}
         </div>
@@ -71,22 +76,22 @@ export default function Sidebar({ activeWorkspace, setActiveWorkspace, currentVi
 
       {/* Navigation Menu */}
       <nav className="flex-1 px-4 overflow-y-auto">
-        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-2 mb-2 block">
-          Menu Principal
+        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-2 mb-3 block">
+          Visualizações
         </label>
         <div className="space-y-1">
           {menuItems.map((item) => (
             <button
               key={item.id}
               onClick={() => setCurrentView(item.id)}
-              className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-all ${
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${
                 currentView === item.id 
-                ? 'bg-slate-900 text-white font-medium shadow-md' 
+                ? 'bg-slate-900 text-white font-bold shadow-lg' 
                 : 'text-slate-600 hover:bg-slate-50'
               }`}
             >
               <item.icon size={18} className={currentView === item.id ? 'text-white' : 'text-slate-400'} />
-              <span className="text-sm">{item.label}</span>
+              <span className="text-sm font-medium">{item.label}</span>
             </button>
           ))}
         </div>
@@ -94,13 +99,16 @@ export default function Sidebar({ activeWorkspace, setActiveWorkspace, currentVi
 
       {/* Footer / User Profile */}
       <div className="p-4 border-t border-slate-100 bg-slate-50/50">
-        <div className="flex items-center gap-3 p-2 rounded-xl hover:bg-white transition-colors cursor-pointer group">
-          <div className="w-9 h-9 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-medium border-2 border-white shadow-sm">
-            S
+        <div 
+          onClick={onLogout}
+          className="flex items-center gap-3 p-2 rounded-xl hover:bg-white transition-colors cursor-pointer group"
+        >
+          <div className="w-9 h-9 bg-gradient-to-br from-slate-700 to-slate-900 rounded-full flex items-center justify-center text-white font-bold border-2 border-white shadow-sm">
+            {user?.name?.substring(0,2).toUpperCase() || 'SD'}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold text-slate-800 truncate">Savio Dev</p>
-            <p className="text-[10px] text-slate-500 truncate">Plano Enterprise</p>
+            <p className="text-xs font-bold text-slate-800 truncate uppercase">{user?.name || 'Savio Dev'}</p>
+            <p className="text-[10px] text-slate-500 truncate font-bold">{user?.level?.toUpperCase() || 'MASTER ADMIN'}</p>
           </div>
           <LogOut size={16} className="text-slate-400 group-hover:text-red-500 transition-colors" />
         </div>

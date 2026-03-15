@@ -1,11 +1,39 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Bug, Send, AlertTriangle, Lightbulb, MessageSquare } from 'lucide-react';
+import { Bug, Send, AlertTriangle, Lightbulb, MessageSquare, CheckCircle2, User } from 'lucide-react';
 
-export default function BugView({ tasks }) {
-  const [formData, setFormData] = useState({ title: '', description: '', severity: 'Medium' });
+export default function BugView({ tasks, onReport }) {
+  const [formData, setFormData] = useState({ 
+    title: '', 
+    description: '', 
+    severity: 'Média',
+    type: 'Bug Crítico'
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const bugs = tasks.filter(t => t.status === 'Incidente');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!formData.title.trim()) return;
+
+    setIsSubmitting(true);
+    
+    // Simular envio e adicionar aos incidentes
+    setTimeout(() => {
+        onReport({
+            name: formData.title,
+            description: formData.description,
+            priority: formData.severity === 'Alta' ? 'Crítica' : formData.severity,
+            status: 'Incidente',
+            type: formData.type
+        });
+        
+        setFormData({ title: '', description: '', severity: 'Média', type: 'Bug Crítico' });
+        setIsSubmitting(false);
+    }, 600);
+  };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 animate-in fade-in duration-500">
@@ -19,20 +47,27 @@ export default function BugView({ tasks }) {
           <p className="text-sm text-slate-500">Ajude-nos a melhorar o sistema enviando feedbacks detalhados.</p>
         </div>
 
-        <div className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Título do Problema</label>
             <input 
               type="text" 
+              required
               placeholder="Ex: Erro ao carregar Dashboard de Analytics"
-              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-100 outline-none transition-all text-sm"
+              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-100 outline-none transition-all text-sm font-medium"
+              value={formData.title}
+              onChange={(e) => setFormData({...formData, title: e.target.value})}
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Tipo</label>
-              <select className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm">
+              <select 
+                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-medium"
+                value={formData.type}
+                onChange={(e) => setFormData({...formData, type: e.target.value})}
+              >
                 <option>Bug Crítico</option>
                 <option>Melhoria Técnico</option>
                 <option>Sugestão UX</option>
@@ -40,7 +75,11 @@ export default function BugView({ tasks }) {
             </div>
             <div className="space-y-2">
               <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Severidade</label>
-              <select className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm">
+              <select 
+                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-medium"
+                value={formData.severity}
+                onChange={(e) => setFormData({...formData, severity: e.target.value})}
+              >
                 <option>Alta</option>
                 <option>Média</option>
                 <option>Baixa</option>
@@ -53,15 +92,27 @@ export default function BugView({ tasks }) {
             <textarea 
               rows="4"
               placeholder="Descreva os passos para reproduzir o erro..."
-              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-100 outline-none transition-all text-sm resize-none"
+              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-100 outline-none transition-all text-sm resize-none font-medium"
+              value={formData.description}
+              onChange={(e) => setFormData({...formData, description: e.target.value})}
             ></textarea>
           </div>
 
-          <button className="w-full py-4 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2 shadow-xl shadow-slate-200">
-            <Send size={18} />
-            Enviar Report
+          <button 
+            type="submit"
+            disabled={isSubmitting}
+            className={`w-full py-4 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2 shadow-xl shadow-slate-200 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+          >
+            {isSubmitting ? (
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+            ) : (
+                <>
+                    <Send size={18} />
+                    Enviar Report
+                </>
+            )}
           </button>
-        </div>
+        </form>
       </div>
 
       {/* List of Open Bugs */}
@@ -71,7 +122,7 @@ export default function BugView({ tasks }) {
           <span className="text-xs font-medium text-blue-600 hover:underline cursor-pointer">Ver Histórico</span>
         </div>
 
-        <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2 no-scrollbar">
+        <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
           {bugs.map(bug => (
             <div key={bug.id} className="bg-red-50/50 p-5 rounded-2xl border border-red-100 hover:shadow-md transition-all group">
               <div className="flex items-start gap-4">
@@ -81,15 +132,15 @@ export default function BugView({ tasks }) {
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-1">
                     <h4 className="font-bold text-slate-900">INC-{bug.id}: {bug.name}</h4>
-                    <span className="text-[10px] font-bold text-red-600 bg-red-100 px-2 py-0.5 rounded">ALTA</span>
+                    <span className="text-[10px] font-bold text-red-600 bg-red-100 px-2 py-0.5 rounded uppercase">{bug.priority}</span>
                   </div>
-                  <p className="text-xs text-slate-600 mb-3 line-clamp-2">{bug.description}</p>
+                  <p className="text-xs text-slate-600 mb-3 line-clamp-2">{bug.description || 'Nenhuma descrição fornecida.'}</p>
                   <div className="flex items-center gap-3">
                     <div className="flex items-center gap-1 text-[10px] font-bold text-slate-400 uppercase">
                       <User size={12} /> {bug.owner}
                     </div>
                     <div className="flex items-center gap-1 text-[10px] font-bold text-slate-400 uppercase">
-                      <MessageSquare size={12} /> 3 Comments
+                      <MessageSquare size={12} /> Aberto via Report
                     </div>
                   </div>
                 </div>

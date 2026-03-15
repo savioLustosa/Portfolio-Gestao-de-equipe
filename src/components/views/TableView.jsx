@@ -2,11 +2,21 @@
 
 import React from 'react';
 import { statusColors, priorityColors } from '@/lib/mockData';
-import { User, Calendar, ExternalLink, Hash } from 'lucide-react';
+import { User, Calendar, ExternalLink, Hash, AlertCircle, Rocket } from 'lucide-react';
 
-export default function TableView({ tasks, onSelectTask }) {
+export default function TableView({ tasks, onTaskClick }) {
   // Agrupar tarefas por grupo
   const groups = Array.from(new Set(tasks.map(t => t.group)));
+
+  if (tasks.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 bg-white rounded-3xl border border-slate-200 shadow-sm border-dashed">
+        <Hash size={48} className="text-slate-200 mb-4" />
+        <h3 className="text-lg font-bold text-slate-800 uppercase tracking-tight">Nenhum resultado encontrado</h3>
+        <p className="text-sm text-slate-500">Tente ajustar seus filtros ou termos de pesquisa.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -38,7 +48,7 @@ export default function TableView({ tasks, onSelectTask }) {
                 {tasks.filter(t => t.group === group).map(task => (
                   <tr 
                     key={task.id} 
-                    onClick={() => onSelectTask(task)}
+                    onClick={() => onTaskClick(task)}
                     className="hover:bg-slate-50/80 cursor-pointer transition-colors group"
                   >
                     <td className="px-6 py-4">
@@ -47,7 +57,11 @@ export default function TableView({ tasks, onSelectTask }) {
                           <Hash size={14} />
                         </div>
                         <div>
-                          <p className="text-sm font-semibold text-slate-800 group-hover:text-blue-600 transition-colors">{task.name}</p>
+                          <p className={`text-sm font-semibold group-hover:text-blue-600 transition-colors flex items-center gap-2 ${task.isBlocked ? 'text-red-600' : 'text-slate-800'}`}>
+                            {task.isPersonal && <Rocket size={12} className="text-blue-600" />}
+                            {task.name}
+                            {task.isBlocked && <AlertCircle size={14} className="text-red-500 animate-pulse" title={task.blockReason} />}
+                          </p>
                           <p className="text-[11px] text-slate-400 flex items-center gap-1 mt-0.5">
                             {task.gitPr ? (
                               <span className="flex items-center gap-1 text-green-600">
