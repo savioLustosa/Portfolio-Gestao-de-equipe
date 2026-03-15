@@ -125,7 +125,7 @@ export default function App() {
     const newBug = {
       ...report,
       id: Math.floor(Math.random() * 10000),
-      group: activeWorkspace === 'All Workspaces' ? (workspaces[0] || 'DEVOPS & INFRA') : activeWorkspace,
+      group: activeWorkspace === 'Todos Projetos' ? (workspaces[0] || 'DEVOPS & INFRA') : activeWorkspace,
       owner: user?.name,
       startDate: new Date().toISOString().split('T')[0],
       date: new Date().toISOString().split('T')[0],
@@ -176,7 +176,7 @@ export default function App() {
         task.description?.toLowerCase().includes(query) ||
         task.status?.toLowerCase().includes(query);
       
-      const matchesWorkspace = activeWorkspace === 'All Workspaces' || task.group === activeWorkspace;
+      const matchesWorkspace = activeWorkspace === 'Todos Projetos' || task.group === activeWorkspace;
       
       return matchesSearch && matchesWorkspace;
     });

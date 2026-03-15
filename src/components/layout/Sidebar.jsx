@@ -45,9 +45,9 @@ export default function Sidebar({ activeWorkspace, setActiveWorkspace, currentVi
         </label>
         <div className="space-y-1 max-h-48 overflow-y-auto custom-scrollbar">
           <button
-            onClick={() => setActiveWorkspace('All Workspaces')}
+            onClick={() => setActiveWorkspace('Todos Projetos')}
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${
-              activeWorkspace === 'All Workspaces' 
+              activeWorkspace === 'Todos Projetos' 
               ? 'bg-blue-600 text-white font-bold shadow-lg shadow-blue-100' 
               : 'text-slate-600 hover:bg-slate-50'
             }`}
