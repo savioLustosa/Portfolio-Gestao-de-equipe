@@ -32,9 +32,9 @@ export default function App() {
     const loadInitialData = async () => {
       try {
         // Tentar carregar do localStorage primeiro para persistência real
-        const savedTasks = localStorage.getItem('syncsaas_tasks');
-        const savedWs = localStorage.getItem('syncsaas_workspaces');
-        const savedTeam = localStorage.getItem('syncsaas_team');
+        const savedTasks = localStorage.getItem('muitomaisquedados_tasks');
+        const savedWs = localStorage.getItem('muitomaisquedados_workspaces');
+        const savedTeam = localStorage.getItem('muitomaisquedados_team');
 
         if (savedTasks && savedWs && savedTeam) {
           setTasks(JSON.parse(savedTasks));
@@ -93,9 +93,9 @@ export default function App() {
   // Sincronizar com localStorage sempre que houver mudanças
   useEffect(() => {
     if (!isLoading) {
-      localStorage.setItem('syncsaas_tasks', JSON.stringify(tasks));
-      localStorage.setItem('syncsaas_workspaces', JSON.stringify(workspaces));
-      localStorage.setItem('syncsaas_team', JSON.stringify(team));
+      localStorage.setItem('muitomaisquedados_tasks', JSON.stringify(tasks));
+      localStorage.setItem('muitomaisquedados_workspaces', JSON.stringify(workspaces));
+      localStorage.setItem('muitomaisquedados_team', JSON.stringify(team));
     }
   }, [tasks, workspaces, team, isLoading]);
 
