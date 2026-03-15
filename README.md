@@ -1,71 +1,70 @@
-# Muito Mais que Dados - Gestão Operacional & TI 🚀💎
+# 🚀 Muito Mais que Dados - Gestão Operacional de Alta Performance
 
-Uma plataforma de alta performance desenvolvida para gestão de equipes, tickets e cronogramas estratégicos. Focada em transparência, auditoria e facilidade de uso para gestores e desenvolvedores.
-
-![Logo do Projeto](public/assets/logo.png)
-
-## 🌟 Funcionalidades Principais
-
-### 🗓️ Timeline Dinâmica & Gantt
-- Navegação inteligente entre meses.
-- Suporte a projetos multi-mês com cálculo de largura e posição em tempo real.
-- Visualização clara de prazos e dependências.
-
-### 🛡️ Auditoria & Governança (Cadeia de Custódia)
-- Painel Master de auditoria completa com rastreabilidade total.
-- Log de operações sincronizado com base de dados CSV.
-- Filtro avançado por ID de ticket, responsável ou contexto.
-
-### ⚡ Gestão de Performance
-- **Tarefas em Andamento (Ongoing)**: Lógica de data dinâmica que atualiza o prazo final automaticamente até a conclusão.
-- **Iniciativas Próprias**: Identificação visual com ícone de foguete 🚀 para projetos pessoais e melhorias autônomas.
-- **Kanban Box**: Movimentação rápida de tickets entre colunas de status.
-
-### 🔐 Segurança & Privacidade
-- **Visão Individual**: Colaboradores visualizam apenas suas próprias demandas.
-- **Acesso Master**: Gestores possuem visão 360º de toda a operação e controle de exclusão.
-- **Autenticação Segura**: Fluxo de login validado com diferenciação de níveis de acesso.
-
-### 🔔 Comunicação em Tempo Real
-- Centro de notificações dinâmico integrado ao Topbar.
-- Alertas visuais para Incidentes 🔴, Conclusões 🟢 e Atualizações 🔵.
-
-## 🛠️ Tecnologias Utilizadas
-
-- **Frontend**: React.js com Next.js (App Router).
-- **Styling**: Tailwind CSS para uma interface moderna e responsiva.
-- **Icons**: Lucide React.
-- **Data Engine**: PapaParse para manipulação dinâmica de CSV como banco de dados.
-- **State Management**: React Hooks (useState, useMemo, useEffect).
-
-## 📊 Estrutura de Dados
-
-O sistema utiliza uma arquitetura baseada em arquivos para máxima portabilidade:
-- `public/data/tasks.csv`: Banco de dados de tarefas e projetos.
-- `public/data/team.csv`: Registro de membros da equipe e níveis.
-- `public/data/workspaces.csv`: Definição de áreas de negócio/workspaces.
+Este projeto foi desenvolvido como um **Case de Estudo e Portfólio Técnico**, focado em resolver problemas reais de gestão de equipes, visibilidade estratégica e rastreabilidade de dados. A plataforma simula um ambiente corporativo robusto para times de TI, Dados e DevOps.
 
 ---
 
-## 🚀 Como Executar o Projeto
+## 🎯 O Desafio
+Gestores muitas vezes enfrentam a falta de visibilidade em projetos de longo prazo e a dificuldade de auditar mudanças rápidas em ambientes ágeis. O "Muito Mais que Dados" resolve isso através de uma interface reativa, uma Timeline dinâmica e uma "Cadeia de Custódia" (Auditoria) completa.
 
-1. Clone o repositório:
+---
+
+## 🛠️ Stack Tecnológica & Decisões de Arquitetura
+
+- **React + Next.js (App Router)**: Escolhido pela performance, roteamento otimizado e facilidade de escalabilidade.
+- **Tailwind CSS**: Utilizado para criar uma UI "Clean & Premium", com foco em *User Experience* (UX) e micro-interações.
+- **Lucide React**: Biblioteca de ícones escolhida pela consistência visual.
+- **Arquitetura "File-First" (CSV Engine)**: 
+  - **Desafio**: Criar um sistema funcional sem a necessidade de um backend complexo/caro para o portfólio.
+  - **Solução**: Implementei uma engine usando `PapaParse` que consome arquivos CSV como base de dados inicial e sincroniza o estado via `LocalStorage`. Isso demonstra habilidade em manipulação de fluxos de dados, parsing e persistência cliente-lado.
+
+---
+
+## 💎 Funcionalidades de Destaque (Showcase)
+
+### 🗓️ Timeline Engine Customizada
+Um dos maiores desafios técnicos foi construir um componente de Timeline/Gantt do zero, capaz de:
+- Calcular posições e larguras dinâmicas baseadas em calendários reais.
+- Navegação entre meses mantendo o contexto de tarefas multi-mês.
+- **Destaque**: Tarefas "Em Andamento" (Ongoing) possuem uma lógica onde a data final é o tempo atual (`today`), fazendo a barra "crescer" visualmente a cada dia até a conclusão.
+
+### 🛡️ Auditoria Master & Governança
+Desenvolvi um sistema de **Cadeia de Custódia** que registra cada movimentação no sistema.
+- Modal de auditoria com busca em tempo real.
+- Filtros por ID, Proprietário e Contexto.
+- **Impacto**: Demonstra preocupação com conformidade e segurança de dados (Compliance).
+
+### 🔐 Segurança Baseada em Funções (Role-Based Access)
+- **Modo Colaborador**: Privacidade por padrão. O usuário vê apenas o seu "próprio quadrante".
+- **Modo Gestor Admin**: Visão holística de todos os projetos e controle de exclusão (CRUD completo).
+- **Interface de Login**: Credenciais pré-validadas para facilitar o teste por recrutadores.
+
+### 🔔 Notificações Dinâmicas
+- Sistema de *Activity Stream* que transforma eventos de banco de dados em alertas visuais categorizados (Sucesso, Incidente, Update).
+
+---
+
+## 📈 Lições Aprendidas
+Durante o desenvolvimento, aprofundei conhecimentos em:
+1. **Lógica de Calendário**: Manipulação complexa de objetos `Date` e visualização de dados temporal.
+2. **UX de Dados**: Como apresentar grandes volumes de informações (Tabela vs Kanban vs Timeline) de forma organizada.
+3. **Escalabilidade**: Criar componentes reutilizáveis e estados globais performáticos.
+
+---
+
+## 🚀 Como Testar (Demo)
+
+1. **Clone & Install**:
    ```bash
-   git clone https://github.com/SEU_USUARIO/Portfolio-Gestao-de-equipe.git
-   ```
-2. Instale as dependências:
-   ```bash
+   git clone https://github.com/savioLustosa/Portfolio-Gestao-de-equipe.git
+   cd Portfolio-Gestao-de-equipe
    npm install
-   ```
-3. Inicie o servidor de desenvolvimento:
-   ```bash
    npm run dev
    ```
-4. Acesse o sistema em `http://localhost:3000`.
 
-### 🔑 Acesso de Demonstração (Portfólio)
-- **Email**: `gestor@gestaequipe.com.br`
-- **Senha**: `1020304050`
+2. **Acesso Admin (Para Recrutadores)**:
+   - **User**: `gestor@gestaequipe.com.br` 
+   - **Pass**: `1020304050`
 
 ---
-*Desenvolvido com foco em UX/UI e escalabilidade operacional.*
+*Este projeto demonstra não apenas habilidade de codificação, mas visão de produto e foco na resolução de problemas operacionais.*
